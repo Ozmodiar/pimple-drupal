@@ -1,0 +1,49 @@
+<?php
+
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+
+/**
+ * Get the Pimple container.
+ *
+ * @return \Pimple\Container
+ */
+function pimple_get_container() {
+  $container = &ctools_static(__FUNCTION__);
+
+  if (isset($container)) {
+    return $container;
+  }
+
+  $container = new Container();
+
+  drupal_alter('pimple_container', $container);
+
+  return $container;
+}
+
+/**
+ * Get a service from the Pimple container.
+ *
+ * @param string $name
+ *
+ * @return mixed
+ */
+function pimple_get_service($name) {
+  $container = pimple_get_container();
+
+  return isset ($container[$name]) ? $container[$name] : NULL;
+}
+
+/**
+ * Register a ServiceProvider to the Pimple container.
+ *
+ * @param \Pimple\ServiceProviderInterface $serviceProvider
+ */
+function pimple_register_provider(ServiceProviderInterface $serviceProvider) {
+  $container = pimple_get_container();
+
+  if ($container) {
+    $container->register($serviceProvider);
+  }
+}

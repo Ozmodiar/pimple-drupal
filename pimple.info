@@ -1,0 +1,5 @@
+name = Pimple
+description = Helper functionality for Pimple Dependency Injection Container.
+package = Other
+core = 6.x
+dependencies[] = ctools
